@@ -8,8 +8,11 @@ cap = cv2.VideoCapture('test.mp4')
 # take first frame of the video
 ret, frame = cap.read()
 
+height, width, layers = frame.shape
+
 # initialize average image
 avg1 = np.float32(frame)
+video = cv2.VideoWriter('video.avi', -1, 1, (width, height))
 
 while(1):
     ret, frame = cap.read()
@@ -36,6 +39,7 @@ while(1):
                 (x, y, w, h) = cv2.boundingRect(c)
                 image = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 cv2.imshow('original', frame)
+        video.write(image)
 
         k = cv2.waitKey(60) & 0xff
     else:
@@ -43,3 +47,4 @@ while(1):
 
 cv2.destroyAllWindows()
 cap.release()
+video.release()
